@@ -24,8 +24,7 @@ public class UserJsonTeste {
 			.get("http://localhost:8081/usuario/")
 		.then()
 			.statusCode(200)
-			.body("id", is(1))
-			.body("name", containsString("Silva"));
+			.body("id", is(notNullValue()));
 		
 	}
 	
@@ -48,7 +47,7 @@ public class UserJsonTeste {
 			.post("http://localhost:8081/usuario/")
 		.then()
 			.log().all()
-			.statusCode(201)
+			.statusCode(200)
 			.body("id", is(notNullValue()))
 			.body("name", is("Usuario da Silva Teste"))
 			.body("cpf", is("385.389.930-70"));
@@ -63,13 +62,13 @@ public class UserJsonTeste {
 	  User usuarioInserido =  given() 
 	  .log().all() 
 	  .contentType("application/json")
-	  .body(user) .when() .post("http://localhost:8081/usuario") .then()
+	  .body(user) .when() .post("http://localhost:8081/usuario/") .then()
 	  .log().all() .statusCode(201) .body("id", is(notNullValue()))
 	  .extract().body().as(User.class);
 	 
 	  System.out.println(usuarioInserido);
 	  Assert.assertThat(usuarioInserido.getId(),notNullValue());
-	  Assert.assertEquals("Usuario da Silva Teste", usuarioInserido.getName());
+	  Assert.assertEquals("André Marques", usuarioInserido.getName());
 	  }
 	 
 	
@@ -81,12 +80,12 @@ public class UserJsonTeste {
 			.contentType(ContentType.XML)
 			.body(user)
 		.when()
-			.post("http://localhost:8081/usuario")
+			.post("http://localhost:8081/usuario/")
 		.then()
 			.log().all()
 			.statusCode(201)
 			.body("user.id", is(notNullValue()))
-			.body("user.name", is("Usuario da Silva Teste"))
+			.body("user.name", is("André MarqueS"))
 			.body("user.cpf", is("385.389.930-70"));
 		
 	}
